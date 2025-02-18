@@ -1,9 +1,18 @@
-const {Sequelize} = require ("sequelize")
+require("dotenv").config({path :'../.env'});
+const { createClient } = require("@libsql/client");
 
-const db = new Sequelize ("stockDb","root","",{
-    host : "localhost",
-    dialect:"mysql",
-    port: 3306
-})
+const db = createClient({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
 
-module.exports = db
+(async () => {
+  try {
+    await db.execute("SELECT 1");
+    console.log("Conexión a Turso exitosa.");
+  } catch (error) {
+    console.error("Error al conectar con Turso:", error);
+  }
+})();
+
+module.exports = db;

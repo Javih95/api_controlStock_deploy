@@ -1,4 +1,4 @@
-const express = require("express")
+/*const express = require("express")
 const cors = require("cors")
 
 const app = express()
@@ -28,4 +28,5 @@ const conexionDB = async () => {
 app.listen(port, () => {
     conexionDB()
     console.log(`Servidor ok en el puerto ${port}`);
-})
+})*/
+// app.js
