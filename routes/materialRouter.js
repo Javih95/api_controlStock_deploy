@@ -18,4 +18,4 @@ router.get("/:id",obtenerMateriales)
 
 router.delete("/:id", eliminarMaterial)
 
-module.exports = router
+module.exports = router;

@@ -1,19 +1,19 @@
 const { UPDATE } = require("sequelize/lib/query-types")
-const productoModel = require("../models/productoModel"); 
+const productoModel = require("../models/productoModel");
 
-const crearProducto = async (req,res)=>{
+const crearProducto = async (req, res) => {
   const { art, descripcion, quantity } = req.body;
-    try {
-      if (!art || !descripcion || quantity === undefined) {
-        return res.status(400).json({ error: "Todos los campos son requeridos." });
-      }
-      const producto = await productoModel.create(req.body)
-      return res.status(201).json(producto);
+  try {
+    if (!art || !descripcion || quantity === undefined) {
+      return res.status(400).json({ error: "Todos los campos son requeridos." });
     }
-    catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: "Error al crear el producto." });
-    }
+    const producto = await productoModel.create(req.body)
+    return res.status(201).json(producto);
+  }
+  catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Error al crear el producto." });
+  }
 }
 const actualizarProducto = async (req, res) => {
   try {
@@ -47,17 +47,17 @@ const borrarProducto = async (req, res) => {
   }
 };
 
-const traerProductos = async (req,res)=>{
-    try {
-      const productos = await productoModel.findAll()
-      if (productos.length === 0) {
-        return res.status(404).json({ message: "No se encontraron productos" });
-      }
-
-      res.json(productos)
-    } catch (error) {
-      res.json({message:error.message})
+const traerProductos = async (req, res) => {
+  try {
+    const productos = await productoModel.findAll()
+    if (productos.length === 0) {
+      return res.status(404).json({ message: "No se encontraron productos" });
     }
+
+    res.json(productos)
+  } catch (error) {
+    res.json({ message: error.message })
+  }
 }
 
 const traerProductosFiltrados = async (req, res) => {
@@ -91,4 +91,10 @@ const traerProductosFiltrados = async (req, res) => {
   }
 };
 
-module.exports ={crearProducto,actualizarProducto,borrarProducto,traerProductos,traerProductosFiltrados}
+module.exports = {
+  crearProducto,
+  actualizarProducto,
+  borrarProducto,
+  traerProductos,
+  traerProductosFiltrados
+};

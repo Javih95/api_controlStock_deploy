@@ -7,4 +7,4 @@ const productoModel = db.define("Product", {
   descripcion: { type: DataTypes.STRING, allowNull: false },
   quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
 });
-module.exports = productoModel
+module.exports = productoModel;

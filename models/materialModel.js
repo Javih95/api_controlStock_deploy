@@ -7,4 +7,4 @@ const materialModel = db.define("Material", {
   descripcion: { type: DataTypes.STRING, allowNull: false },
   quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
 });
-module.exports = materialModel
+module.exports = materialModel;

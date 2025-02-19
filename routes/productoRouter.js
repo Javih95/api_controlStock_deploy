@@ -17,4 +17,4 @@ router.get("/", traerProductosFiltrados)
 
 router.delete("/:id", borrarProducto)
 
-module.exports = router
+module.exports = router;

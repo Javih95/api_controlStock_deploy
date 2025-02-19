@@ -6,4 +6,4 @@ const clienteModel = db.define("Cliente", {
   direccion: { type: DataTypes.STRING, allowNull: false },
   telefono: { type: DataTypes.STRING, allowNull: false },
 });
-module.exports = clienteModel
+module.exports = clienteModel;
