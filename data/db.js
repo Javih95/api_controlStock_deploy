@@ -1,4 +1,4 @@
-require("dotenv").config({path :'../.env'});
+/*require("dotenv").config({path :'../.env'});
 const { createClient } = require("@libsql/client");
 
 const db = createClient({
@@ -16,3 +16,17 @@ const db = createClient({
 })();
 
 module.exports = db;
+*/
+import { drizzle } from "drizzle-orm/libsql";
+import { createClient }  from "@libsql/client";
+import dotenv from "dotenv";
+
+dotenv.config();
+const client = createClient({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
+
+const db = drizzle(client);
+export default db;
+

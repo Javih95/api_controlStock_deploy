@@ -1,9 +1,10 @@
-const db = require("../data/db.js")
-const { DataTypes } = require("sequelize")
-const clienteModel = db.define("Cliente", {
-  id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-  nombre: { type: DataTypes.STRING, allowNull: false },
-  direccion: { type: DataTypes.STRING, allowNull: false },
-  telefono: { type: DataTypes.STRING, allowNull: false },
+
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+
+const clienteModel = sqliteTable("clientes", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  nombre: text("nombre").notNull(),
+  direccion: text("direccion").notNull(),
+  telefono: text("telefono").notNull(),
 });
-module.exports = clienteModel;
+export default clienteModel;

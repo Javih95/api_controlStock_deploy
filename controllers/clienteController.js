@@ -1,73 +1,75 @@
-const { Op } = require("sequelize");
-const clienteModel = require("../models/clienteModel");
+import db from "../data/db.js";
+import clientes from "../models/clienteModel.js";
+import { eq, like } from "drizzle-orm";
 
-// Crear un nuevo cliente
-const crearCliente = async (req, res) => {
+// Crear un cliente
+export const crearCliente = async (req, res) => {
   const { nombre, direccion, telefono } = req.body;
-  try {
-    if (!nombre || !direccion || !telefono) {
-      return res.status(400).json({ error: "Todos los campos son requeridos." });
-    }
-    const cliente = await clienteModel.create(req.body);
-    return res.status(201).json(cliente);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Error al crear el cliente." });
+  if (!nombre || !direccion || !telefono) {
+    return res.status(400).json({ error: "Todos los campos son requeridos." });
   }
-};
-
-// Actualizar un cliente por ID
-const actualizarCliente = async (req, res) => {
+  
   try {
-    const cliente = await clienteModel.findByPk(req.params.id);
-    if (!cliente) {
-      return res.status(404).json({ message: "Cliente no encontrado." });
-    }
-    await clienteModel.update(req.body, {
-      where: { id: req.params.id },
-    });
-
-    res.json("Cliente actualizado correctamente");
+    const result = await db.insert(clientes).values({ nombre, direccion, telefono }).returning();
+    res.status(201).json(result[0]);
   } catch (error) {
-    res.json({ message: error.message });
-  }
-};
-
-// Eliminar un cliente por ID
-const eliminarCliente = async (req, res) => {
-  try {
-    const cliente = await clienteModel.findByPk(req.params.id);
-    if (!cliente) {
-      return res.status(404).json({ message: "Cliente no encontrado." });
-    }
-    await clienteModel.destroy({
-      where: { id: req.params.id },
-    });
-
-    res.json("Cliente eliminado correctamente");
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error: "Error al crear el cliente." });
   }
 };
 
 // Obtener todos los clientes
-const obtenerClientes = async (req, res) => {
+export const obtenerClientes = async (req, res) => {
   try {
-    const clientes = await clienteModel.findAll();
-    if (clientes.length === 0) {
-      return res.status(404).json({ message: "No se encontraron clientes." });
-    }
-
-    res.json(clientes);
+    const result = await db.select().from(clientes);
+    res.json(result);
   } catch (error) {
-    res.json({ message: error.message });
+    res.status(500).json({ error: "Error al obtener los clientes." });
   }
 };
 
+// Obtener clientes filtrados
+export const obtenerClientesFiltrados = async (req, res) => {
+  const { nombre } = req.query;
+  try {
+    let query = db.select().from(clientes);
+    if (nombre) query = query.where(like(clientes.nombre, `%${nombre}%`));
 
-module.exports = {
-  crearCliente,
-  actualizarCliente,
-  eliminarCliente,
-  obtenerClientes
+    const result = await query;
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: "Error al filtrar clientes." });
+  }
+};
+
+// Actualizar cliente por ID
+export const actualizarCliente = async (req, res) => {
+  const { id } = req.params;
+  const { nombre, direccion, telefono } = req.body;
+  
+  try {
+    const result = await db.update(clientes).set({ nombre, direccion, telefono }).where(eq(clientes.id, id));
+
+    if (result.changes === 0) {
+      return res.status(404).json({ error: "Cliente no encontrado." });
+    }
+    res.json({ message: "Cliente actualizado correctamente." });
+  } catch (error) {
+    res.status(500).json({ error: "Error al actualizar el cliente." });
+  }
+};
+
+// Eliminar cliente por ID
+export const eliminarCliente = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await db.delete(clientes).where(eq(clientes.id, id));
+
+    if (result.changes === 0) {
+      return res.status(404).json({ error: "Cliente no encontrado." });
+    }
+    res.json({ message: "Cliente eliminado correctamente." });
+  } catch (error) {
+    res.status(500).json({ error: "Error al eliminar el cliente." });
+  }
 };

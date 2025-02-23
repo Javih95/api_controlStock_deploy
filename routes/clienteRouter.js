@@ -1,18 +1,19 @@
-const express = require("express");
-
-const {
+import express from "express";
+import {
   crearCliente,
   actualizarCliente,
   eliminarCliente,
-  obtenerClientes
-} = require("../controllers/clienteController");
+  obtenerClientes,
+  obtenerClientesFiltrados
+} from "../controllers/clienteController.js";
 
 const router = express.Router();
 
-// Rutas para clientes
 router.post("/", crearCliente);
+router.get("/", obtenerClientes);
+router.get("/filtrar", obtenerClientesFiltrados);
 router.put("/:id", actualizarCliente);
 router.delete("/:id", eliminarCliente);
-router.get("/", obtenerClientes);
 
-module.exports = router;
+export default router;
+
