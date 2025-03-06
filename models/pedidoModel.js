@@ -1,11 +1,11 @@
-const { DataTypes } = require("sequelize");
-const db = require("../data/db.js"); 
-const pedidoModel = db.define("Pedido", {
-  id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-  clienteId: { type: DataTypes.INTEGER, allowNull: false },
-  productos: { type: DataTypes.JSON, allowNull: false },
-  fecha: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW },
-  entregado: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
+import { integer, sqliteTable, text} from "drizzle-orm/sqlite-core";
+
+const pedidoModel = sqliteTable("Pedidos", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  clienteId: integer("clienteId").notNull(),
+  productos: text("productos").notNull(),
+  fecha: text("fecha").notNull().default("CURRENT_TIMESTAMP"), 
+  entregado: integer("entregado").notNull().default(0),
 });
 
-module.exports = pedidoModel ;
+export default pedidoModel;

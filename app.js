@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import clienteRoutes from "./routes/clienteRouter.js";
 import materialRoutes from "./routes/materialRouter.js";
 import productoRoutes from "./routes/productoRouter.js";
+import pedidoRoutes from "./routes/pedidosRouter.js";
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use("/clientes", clienteRoutes);
 app.use("/materiales", materialRoutes);
 app.use("/productos", productoRoutes);
+app.use("/pedidos", pedidoRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
