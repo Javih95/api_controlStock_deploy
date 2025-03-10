@@ -28,3 +28,4 @@ Thumbs.db   # Windows
 
 # Ignorar carpetas de pruebas temporales
 coverage/
+.vercel
