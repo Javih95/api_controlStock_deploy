@@ -38,7 +38,8 @@ Respuesta:
     "descripcion": 200,
     "quantity":10
   }
-]```bash
+]
+```
 ⚙️ Instalación y uso
 git clone https://github.com/Javih95/api_controlStock_deploy.git
 cd api_controlStock_deploy
