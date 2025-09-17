@@ -41,11 +41,12 @@ Respuesta:
 ]
 ```
 ⚙️ Instalación y uso
+```bash
 git clone https://github.com/Javih95/api_controlStock_deploy.git
 cd api_controlStock_deploy
 npm install
 npm run dev
-
+```
 🔑 Variables de entorno
 TURSO_DATABASE_URL=""
 TURSO_AUTH_TOKEN=""
